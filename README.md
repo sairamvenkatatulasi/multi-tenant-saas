@@ -6,7 +6,7 @@ The Multi-Tenant SaaS Platform is a B2B project management application designed 
 
 Each organization (tenant) operates in a fully isolated workspace where users can collaborate on projects and tasks. The platform enforces a clear role hierarchy to ensure security and proper access control.
 
-🧑‍💼 User Roles
+🧑User Roles
       
 Super Admin
    
