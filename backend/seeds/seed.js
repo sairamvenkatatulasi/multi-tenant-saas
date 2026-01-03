@@ -1,3 +1,11 @@
+// Seed order is important:
+// 1. Super admin
+// 2. Tenant
+// 3. Tenant admin
+// 4. Users
+// 5. Projects
+// 6. Tasks
+
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcryptjs');
 
