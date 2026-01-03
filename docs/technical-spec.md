@@ -158,3 +158,9 @@ docker exec -it database psql -U postgres -d saas_db
 Example query:
 
 SELECT * FROM tenants;
+
+
+
+Environment variables are used to configure services dynamically.
+This allows the same Docker images to run across development and
+evaluation environments without code changes.
