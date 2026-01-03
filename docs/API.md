@@ -213,3 +213,86 @@ PUT /tasks/:id
   "priority": "MEDIUM"
 }
 
+
+Standard API Response Format
+
+All API endpoints in this application follow a consistent response structure to ensure predictability and ease of integration for frontend and automated evaluation scripts.
+
+✅ Success Response
+
+On successful execution, the API returns:
+
+{
+  "success": true,
+  "message": "Operation completed successfully",
+  "data": {}
+}
+
+
+Fields:
+
+success – Boolean indicating request status
+
+message – Human-readable success message (optional)
+
+data – Payload containing the requested or modified resource
+
+❌ Error Response
+
+On failure, the API returns:
+
+{
+  "success": false,
+  "message": "Error description"
+}
+
+
+Fields:
+
+success – Always false for errors
+
+message – Clear explanation of the error
+
+🔐 Authorization Errors
+
+If the user is not authorized to access a resource:
+
+{
+  "success": false,
+  "message": "Access denied"
+}
+
+
+HTTP Status: 403 Forbidden
+
+🔍 Resource Not Found
+
+If a resource does not exist or belongs to another tenant:
+
+{
+  "success": false,
+  "message": "Resource not found"
+}
+
+
+HTTP Status: 404 Not Found
+
+This behavior ensures tenant data isolation by not revealing the existence of resources from other tenants.
+
+🧪 Validation Errors
+
+For invalid input data:
+
+{
+  "success": false,
+  "message": "Validation failed",
+  "errors": [
+    {
+      "field": "email",
+      "message": "Invalid email format"
+    }
+  ]
+}
+
+
+HTTP Status: 400 Bad Request
