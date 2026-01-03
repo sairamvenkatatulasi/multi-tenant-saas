@@ -252,3 +252,53 @@ Audit logging for traceability
 
 This architecture provides a secure, scalable, and production-ready foundation for a multi-tenant SaaS platform.
 The design ensures clear separation of concerns, strong tenant isolation, and ease of deployment using containerization.
+
+
+🔌 API Endpoint Overview
+
+The backend exposes 19 RESTful API endpoints, organized by functional modules.
+All endpoints enforce JWT authentication, role-based access control (RBAC), and tenant-level data isolation.
+
+🔐 Authentication Module
+Method	Endpoint	Description	Access
+POST	/api/auth/register-tenant	Register a new tenant and tenant admin	Public
+POST	/api/auth/login	Authenticate user and issue JWT	Public
+GET	/api/auth/me	Get current authenticated user	Authenticated
+POST	/api/auth/logout	Logout user (client-side token removal)	Authenticated
+🏢 Tenant Management (Super Admin)
+Method	Endpoint	Description	Role
+GET	/api/tenants	List all tenants	super_admin
+GET	/api/tenants/:tenantId	Get tenant details	super_admin
+PUT	/api/tenants/:tenantId	Update tenant status or plan	super_admin
+👥 User Management (Tenant Scope)
+Method	Endpoint	Description	Role
+POST	/api/tenants/:tenantId/users	Create user in tenant	tenant_admin
+GET	/api/tenants/:tenantId/users	List users in tenant	tenant_admin
+PUT	/api/users/:userId	Update user profile or role	tenant_admin
+DELETE	/api/users/:userId	Remove user from tenant	tenant_admin
+📁 Project Management
+Method	Endpoint	Description	Role
+POST	/api/projects	Create new project	tenant_admin / user
+GET	/api/projects	List tenant projects	tenant_admin / user
+GET	/api/projects/:projectId	Get project details	tenant_admin / user
+PUT	/api/projects/:projectId	Update project	tenant_admin
+DELETE	/api/projects/:projectId	Delete project	tenant_admin
+📝 Task Management
+Method	Endpoint	Description	Role
+POST	/api/projects/:projectId/tasks	Create task under project	tenant_admin
+GET	/api/projects/:projectId/tasks	List tasks for project	tenant_admin / user
+PATCH	/api/tasks/:taskId/status	Update task status	tenant_admin / user
+PUT	/api/tasks/:taskId	Update full task details	tenant_admin
+DELETE	/api/tasks/:taskId	Delete task	tenant_admin
+❤️ System
+Method	Endpoint	Description
+GET	/api/health	Health check for API and database
+🔒 Security & Isolation Notes
+
+All tenant-scoped endpoints automatically filter data using tenant_id
+
+super_admin users have tenant_id = NULL
+
+Cross-tenant access attempts return 404 Not Found
+
+JWT payload contains only { userId, tenantId, role }
