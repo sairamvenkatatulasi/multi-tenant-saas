@@ -308,3 +308,12 @@ The API uses standard HTTP status codes to indicate request outcomes.
 - **403 Forbidden** – Insufficient permissions
 - **404 Not Found** – Resource not found or inaccessible
 - **500 Internal Server Error** – Unexpected server error
+
+
+## Authentication Flow
+
+1. User submits login credentials along with tenant subdomain
+2. Backend validates user within tenant scope
+3. JWT token is issued containing userId, tenantId, and role
+4. Client stores token securely
+5. Token is sent in Authorization header for all protected requests
