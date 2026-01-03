@@ -309,3 +309,10 @@ JWT payload contains only { userId, tenantId, role }
 All tenant-specific data is isolated using a tenant_id discriminator.
 Each API request extracts tenant_id from the JWT token and applies it
 to database queries to prevent cross-tenant access.
+
+
+
+### Indexing & Performance
+
+Indexes are created on tenant_id columns to improve query performance.
+This ensures efficient data access even as the number of tenants grows.
