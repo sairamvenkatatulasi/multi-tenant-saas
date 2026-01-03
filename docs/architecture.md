@@ -302,3 +302,10 @@ super_admin users have tenant_id = NULL
 Cross-tenant access attempts return 404 Not Found
 
 JWT payload contains only { userId, tenantId, role }
+
+
+### Tenant Isolation Strategy
+
+All tenant-specific data is isolated using a tenant_id discriminator.
+Each API request extracts tenant_id from the JWT token and applies it
+to database queries to prevent cross-tenant access.
