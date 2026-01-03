@@ -13,6 +13,9 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       try {
         const decoded = jwtDecode(token);
+
+        // On app load, token validity is verified to maintain session state
+
         // Check if token is expired
         if (decoded.exp * 1000 < Date.now()) {
           logout();
