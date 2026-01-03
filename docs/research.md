@@ -292,3 +292,172 @@ sequenceDiagram
     API->>DB: Execute tenant-scoped query
     DB-->>API: Return data
     API-->>Client: Response
+
+
+    Security Considerations
+
+Security is a core design principle of the Multi-Tenant SaaS Platform. Since multiple organizations share the same infrastructure, strict controls are enforced at every layer to prevent unauthorized access, data leakage, and privilege escalation.
+
+1️⃣ Authentication Security (JWT-Based)
+
+The platform uses JSON Web Tokens (JWT) for stateless authentication.
+
+Tokens are issued only after successful credential validation
+
+JWT payload includes only non-sensitive identifiers:
+
+{
+  "userId": "<uuid>",
+  "tenantId": "<uuid | null>",
+  "role": "<role>"
+}
+
+
+Tokens are signed using a strong secret key
+
+Token expiration is enforced (24 hours)
+
+Benefits:
+
+No server-side session storage required
+
+Scales horizontally without shared state
+
+Works across subdomains and containers
+
+2️⃣ Secure Password Storage
+
+All user passwords are securely stored using Bcrypt hashing.
+
+Minimum 10 salt rounds
+
+Plaintext passwords are never stored or logged
+
+Password comparison is done using secure hash comparison
+
+This protects against:
+
+Database leaks
+
+Rainbow table attacks
+
+Brute-force credential reuse
+
+3️⃣ Role-Based Access Control (RBAC)
+
+The system enforces strict RBAC using middleware guards.
+
+Role	Permissions
+super_admin	Global tenant access
+tenant_admin	Full control within tenant
+user	Limited project/task access
+
+Authorization checks occur before business logic
+
+Unauthorized requests return 403 Forbidden
+
+Role escalation attempts are blocked
+
+This ensures least-privilege access across the platform.
+
+4️⃣ Tenant Data Isolation
+
+Tenant isolation is enforced at the application and query level.
+
+Every tenant-owned table includes a tenant_id
+
+All queries are scoped using tenant_id
+
+Client-provided tenant identifiers are never trusted
+
+Example:
+
+SELECT * FROM projects
+WHERE id = :projectId
+AND tenant_id = :jwtTenantId;
+
+
+If data belongs to another tenant, the API returns:
+
+404 Not Found
+
+
+This prevents attackers from inferring the existence of foreign tenant data.
+
+5️⃣ Super Admin Isolation
+
+Super Admin users:
+
+Have tenant_id = NULL
+
+Do not belong to any tenant
+
+Can view all tenants but cannot access tenant-specific data implicitly
+
+This design prevents accidental data coupling between system-level and tenant-level users.
+
+6️⃣ Input Validation & Injection Prevention
+
+All request payloads are validated at the backend
+
+Required fields, data types, and formats are enforced
+
+Prisma ORM uses parameterized queries
+
+This eliminates:
+
+SQL Injection
+
+Malformed input attacks
+
+Trust on frontend validation
+
+7️⃣ API Hardening
+
+Additional security measures include:
+
+CORS restrictions using environment-based origins
+
+Rate limiting on authentication endpoints
+
+Secure HTTP headers via middleware
+
+Consistent error responses (no stack traces exposed)
+
+8️⃣ Docker & Environment Security
+
+Environment variables are injected via Docker Compose
+
+Secrets are not hardcoded into source files
+
+Containers run in isolated Docker networks
+
+Database access is restricted to backend service only
+
+9️⃣ Audit Logging (Security Visibility)
+
+All critical actions are logged:
+
+User creation and deletion
+
+Project and task updates
+
+Role changes
+
+Audit logs include:
+
+Action type
+
+Entity affected
+
+Tenant context
+
+Timestamp
+
+This enables:
+
+Incident investigation
+
+Compliance review
+
+Accountability tracking
