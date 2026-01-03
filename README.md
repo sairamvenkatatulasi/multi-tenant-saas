@@ -204,3 +204,6 @@ Email: admin@demo.com
 Password: Admin@123
 
 Subdomain: demo
+
+
+This project is fully dockerized and ready for automated evaluation.
