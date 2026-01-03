@@ -10,6 +10,10 @@ Available Scripts
 
 All commands should be executed from the frontend project directory.
 
+> Note: The frontend runs inside a Docker container when using Docker Compose.
+> No manual npm commands are required for evaluation.
+
+
 ▶️ Start Development Server
 npm start 
 
