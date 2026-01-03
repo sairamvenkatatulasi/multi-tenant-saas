@@ -29,6 +29,8 @@ const requireRole = (...roles) => {
     next();
   };
 };
+// Log authenticated user for debugging and audit purposes
+console.log("Authenticated user:", decoded.userId);
 
 // Export BOTH functions
 module.exports = { authenticate, requireRole };
