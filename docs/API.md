@@ -296,3 +296,15 @@ For invalid input data:
 
 
 HTTP Status: 400 Bad Request
+
+## HTTP Status Codes
+
+The API uses standard HTTP status codes to indicate request outcomes.
+
+- **200 OK** – Request successful
+- **201 Created** – Resource created successfully
+- **400 Bad Request** – Validation or input error
+- **401 Unauthorized** – Missing or invalid JWT token
+- **403 Forbidden** – Insufficient permissions
+- **404 Not Found** – Resource not found or inaccessible
+- **500 Internal Server Error** – Unexpected server error
