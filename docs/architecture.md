@@ -6,7 +6,6 @@ Multi-Tenant SaaS Platform – Project & Task Management System
 This document defines the system architecture of a Multi-Tenant SaaS Project & Task Management Platform. It explains the structural design, component interactions, database model, API organization, and security mechanisms used to support multi-tenancy, scalability, and secure access.
 
 1.2 Scope
-
 The architecture supports:
 
 Multiple tenants (organizations) within a single deployment
