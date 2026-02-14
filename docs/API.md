@@ -13,7 +13,6 @@ All API responses follow this standard format:
   "message": "string",
   "data": {}
 }
-
 Notes
 
 data can be an object, array, or null
