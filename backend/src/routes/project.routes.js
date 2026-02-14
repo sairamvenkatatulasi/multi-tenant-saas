@@ -8,8 +8,8 @@ const {
   deleteProject
 } = require("../controllers/project.controller");
 
-router.post("/", authMiddleware, createProject);
-router.get("/", authMiddleware, listProjects);
+router.post("/",authMiddleware, createProject);
+router.get("/",authMiddleware, listProjects);
 router.put("/:projectId", authMiddleware, updateProject);
 router.delete("/:projectId", authMiddleware, deleteProject);
 
