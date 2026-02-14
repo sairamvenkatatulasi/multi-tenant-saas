@@ -8,8 +8,8 @@ const {
   updateTask
 } = require("../controllers/task.controller");
 
-router.post("/projects/:projectId/tasks", authMiddleware, createTask);
-router.get("/projects/:projectId/tasks", authMiddleware, listTasks);
+router.post("/projects/:projectId/tasks",authMiddleware, createTask);
+router.get("/projects/:projectId/tasks",authMiddleware, listTasks);
 router.patch("/tasks/:taskId/status", authMiddleware, updateTaskStatus);
 router.put("/tasks/:taskId", authMiddleware, updateTask);
 
